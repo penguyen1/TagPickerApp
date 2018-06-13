@@ -1,22 +1,10 @@
 import React, { Component } from 'react';
+// import PropTypes from 'prop-types';
 import tags from '../tags';
 // import Tag from './Tag';
 // import Folder from './Folder';
 
 class Items extends Component {
-  // constructor(props){
-  //   super(props);
-
-  //   // this.state = {
-  //   //   count: 0,
-  //   //   history: [],
-  //   //   parent: null,
-  //   //   items: data,
-  //   //   name: 'Kaymbu TagPicker App',
-  //   //   selected: []
-  //   // }
-  // }
-
   shouldComponentUpdate(nextProps, nextState) {
     console.log('scu1: ', nextProps)
     console.log('scu2: ', nextState)
@@ -24,29 +12,22 @@ class Items extends Component {
     const diffItems = this.props.items !== nextState.items;
     console.log('scu: ', diffItems)
     return diffItems;
-    // if (this.props.items !== nextProps.items) {
-    //   console.log('scu true')
-    //    return true;
-    // } else {
-    //   console.log('scu false')
-    //    return false;
-    // }
   }
 
-  folderClick = (val) => {
-    console.log('going into Folder id: ', val);
-    let newitems = this.props.showItems(val);
+  folderClick = (id) => {
+    console.log('going into Folder id: ', id);
+    let newitems = this.props.showItems(id);
+    console.log('showing Folder: ', newitems);
     
-    // set parent to val id
-    // set items to new array
-    this.setState({
-      parent: val,
-      items: newitems
+    this.setState((prevState, props) => {
+      console.log('prevState: ', prevState);
+      console.log('props: ', props);
+      return {items: (props.items).splice(0, props.items.length, ...newitems)}
     })
   }
 
-  tagToggle = (val) => {
-    console.log('Toggle tag id: ', val);
+  tagToggle = (id) => {
+    console.log('Toggle tag id: ', id);
     // toggle selected tag
   }
 

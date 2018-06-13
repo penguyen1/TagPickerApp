@@ -11,46 +11,32 @@ class App extends Component {
     super(props);
 
     this.state = {
-      count: 0,
-      history: [],
-      parent: null,
-      tags: tags,
-      name: 'Kaymbu TagPicker App',
       selectedTags: []
     }
   }
-
-  // showRootItems = () => {
-  //   console.log('FIRST :: showing Root items');
-  //   return tags.map(item => {
-  //     if(item.parent === this.state.parent){ return item }
-  //   })
-  //   .filter(x => x !== undefined);
-  // }  
 
   showItems = (id = null) => {
     console.log('FIRST :: showing Root items');
     return tags.map(item => {
       if(item.parent === id){ return item }
-    })
-    .filter(x => x !== undefined);
+    }).filter(x => x !== undefined);
   }
 
-  componentWillUpdate = () => {
-    let rItems = this.showItems();
-    this.setState({ history: [...this.state.history, rItems] });
-    console.log('History: ', this.state.history);
-  }
+  // componentWillUpdate = () => {
+  //   let rItems = this.showItems();
+  //   this.setState({ history: [...this.state.history, rItems] });
+  //   console.log('History: ', this.state.history);
+  // }
 
   render() {
-    let showItems = this.showItems();
+    // let showItems = this.showItems();
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">{this.state.name}</h1>
+          <h1 className="App-title">Kaymbu TagPicker App</h1>
         </header>
-        <Items items={showItems} showItems={this.showItems}/>
+        <Items items={this.showItems()} showItems={this.showItems}/>
       </div>
     );
   }
