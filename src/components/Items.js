@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import tags from '../tags';
+// import tags from '../tags';
 
 class Items extends Component {
   constructor(props){
     super(props);
 
     this.state = {
-      counter: 1,
+      counter: 0,
       history: {0: this.props.showItems()},
       selectedTags: [],
       parent: null
@@ -16,14 +16,15 @@ class Items extends Component {
   folderClick = (id) => {
     // get items with new parent id
     let newitems = this.props.showItems(id);
-    let count = this.state.counter;
+    let count = this.state.counter+1;
+    console.log('history: ', this.state.history)
     
     // rerender component with new state
     this.setState((prevState, props) => {
       return {
         parent: id,
         counter: prevState.counter+1,
-        history: { ...prevState.history, [count]: props.items},
+        history: { ...prevState.history, [count]: newitems},
         items: (props.items).splice(0, props.items.length, ...newitems)
       }
     })
@@ -43,12 +44,21 @@ class Items extends Component {
 
   goBack = () => {
     // revert back to previous history[counter - 1] -- TODO
-    let count = this.state.counter - 1;
-    let history = this.state.history[count]
+    let count = this.state.counter-1;
+    console.log('count: ', count)
+    console.log('history: ', this.state.history)
 
-    this.setState({
-      history: history,
-      items: history[count]
+    // rerender component with prev state
+    this.setState((prevState, props) => {
+      console.log('BACK -- prevState: ', prevState)
+      console.log('BACK -- props: ', props)
+
+      return {
+        parent: prevState.items[0].parent,
+        counter: prevState.counter-1,
+        history: { ...prevState.history, [count]: []},
+        items: (props.items).splice(0, props.items.length, ...prevState.history[count])
+      }
     })
   }
 
@@ -57,7 +67,7 @@ class Items extends Component {
   render() {
     return (
       <div>
-        <div>{this.state.parent !== null ? <button onClick={() => this.goBack.bind(this)}>Go Back</button> : ''}</div>
+        {(this.state.parent === null || this.state.counter === 0) ? '' : <button onClick={this.goBack}>Go Back</button>}
         <ul>
         {
           this.props.items.map((item, index) => {

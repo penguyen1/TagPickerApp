@@ -5,9 +5,9 @@ import tags from '../tags';
 import Items from './Items';
 
 class App extends Component {
-  constructor(props){
-    super(props);
-  }
+  // constructor(props){
+  //   super(props);
+  // }
 
   showItems = (id = null) => {
     // filter json data with parent id
